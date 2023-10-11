@@ -1,22 +1,10 @@
 [
   {
-    "Id": 1,
-    "Name": "Electronic"
-  },
-  {
     "Id": 2,
-    "Name": "Books"
+    "Name": "electronicsw"
   },
   {
     "Id": 3,
-    "Name": "Clothing"
-  },
-  {
-    "Id": 4,
-    "Name": "sports2.0"
-  },
-  {
-    "Id": 5,
-    "Name": "hell yeah"
+    "Name": "wood"
   }
 ]
