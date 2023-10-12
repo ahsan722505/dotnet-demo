@@ -20,6 +20,33 @@
 			<label asp-for="Price"></label>
 			<input asp-for="Price" disabled class="form-control" />
 		</div>
+		<div class="mb-3">
+    <label>Categories</label>
+    @foreach(var category in Model.AvailableCategories)
+    {
+        <div class="form-check">
+            @if(Model.CategoryIds.Contains(category.Id))
+            {
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       value="@category.Id" 
+                       name="CategoryIds" 
+                       id="category_@category.Id"
+					   disabled
+                       checked />
+            }
+            else
+            {
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       value="@category.Id" 
+                       name="CategoryIds" 
+                       id="category_@category.Id" disabled />
+            }
+            <label class="form-check-label" for="category_@category.Id">@category.Name</label>
+        </div>
+    }
+</div>
 		<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
 		<a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">
 			Back to List

@@ -14,14 +14,20 @@ public class Product
      [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
     public decimal Price { get; set; }
 
+    public List<int> CategoryIds { get; set; } = new List<int>();
+    public List<string> CategoryNames { get; set; } = new List<string>();
+    public List<Category> AvailableCategories { get; set; } = new List<Category>();
+
+
 
     public Product(){}
-        public Product(int id, string name, string description, decimal price)
+        public Product(int id, string name, string description, decimal price, List<int> categoryIds)
     {   
         Id = id;
         Name = name;
         Description=description;
         Price=price;
+        CategoryIds=categoryIds;
         
     }
 
@@ -30,9 +36,18 @@ public class Product
 
         string jsonFilePath="./Products.json";
         string jsonContent = File.ReadAllText(jsonFilePath);
+         List<Product> products=JsonSerializer.Deserialize<List<Product>>(jsonContent)!;
+         List<Category> categories=Category.GetCategories();
+        foreach (var product in products)
+            {
+                product.CategoryNames = product.CategoryIds
+                    .Select(id => categories.FirstOrDefault(cat => cat.Id == id)?.Name)
+                    .Where(name => name != null)
+                    .ToList()!;
+            }
 
-        // Deserialize the content into a list of Product objects
-        return JsonSerializer.Deserialize<List<Product>>(jsonContent)!;
+        return products;
+
     }
 
     public static Product GetProduct(int? id)
@@ -44,6 +59,8 @@ public class Product
         var products= JsonSerializer.Deserialize<List<Product>>(jsonContent)!;
 
         var product=products.Find(prod=> prod.Id == id)!;
+        var categories= Category.GetCategories();
+        product.AvailableCategories=categories;
         return product;
     }
 
@@ -63,6 +80,7 @@ public class Product
             productToUpdate.Name = product.Name;
             productToUpdate.Description=product.Description;
             productToUpdate.Price=product.Price;
+            productToUpdate.CategoryIds=product.CategoryIds;
 
             // Serialize the updated products list back to the JSON file
             string updatedJson = JsonSerializer.Serialize(products, new JsonSerializerOptions { WriteIndented = true });

@@ -97,6 +97,21 @@ public class Category
         // Serialize the updated categories list back to the JSON file
         string updatedJson = JsonSerializer.Serialize(categories, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(jsonFilePath, updatedJson);
+
+        // Read and deserialize the existing products
+        string jsonFilePathProducts = "./Products.json";
+        string jsonContentProducts = File.ReadAllText(jsonFilePathProducts);
+        List<Product> products = JsonSerializer.Deserialize<List<Product>>(jsonContentProducts) ?? new List<Product>();
+
+        // Iterate over each product and remove the deleted category ID from CategoryIds
+        foreach (var product in products)
+        {
+            product.CategoryIds.RemoveAll(catId => catId == id);
+        }
+
+        // Serialize the updated products list back to the JSON file
+        string updatedJsonProduct = JsonSerializer.Serialize(products, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(jsonFilePathProducts, updatedJsonProduct);
         
     }
 

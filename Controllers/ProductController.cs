@@ -16,7 +16,17 @@ public class ProductController : Controller
     //GET
     public IActionResult Create()
     {
-        return View();
+        var productViewModel = new Product();
+    
+    // Load available categories from the data source
+    List<Category> availableCategories = Category.GetCategories();
+    
+    // Set the available categories on the view model
+    // For this step, you'll need to add an AvailableCategories property to your Product model.
+    productViewModel.AvailableCategories = availableCategories;
+    
+    // Pass the populated view model to the view
+    return View(productViewModel);
     }
 
     //POST

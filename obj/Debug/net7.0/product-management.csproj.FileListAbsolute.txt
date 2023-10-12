@@ -30,3 +30,4 @@
 /home/ahsan/Desktop/product-management/obj/Debug/net7.0/product-management.genruntimeconfig.cache
 /home/ahsan/Desktop/product-management/obj/Debug/net7.0/ref/product-management.dll
 /home/ahsan/Desktop/product-management/bin/Debug/net7.0/Categories.json
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Products.json
