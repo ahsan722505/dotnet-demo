@@ -14,7 +14,7 @@
     "Id": 2,
     "Name": "ball",
     "Description": "A good ball",
-    "Price": 20.0,
+    "Price": 20.00,
     "CategoryIds": [
       3
     ],
@@ -25,7 +25,7 @@
     "Id": 3,
     "Name": "speedometer",
     "Description": "A device to measure bowling speed",
-    "Price": 300,
+    "Price": 300.00,
     "CategoryIds": [
       3,
       4
@@ -37,7 +37,7 @@
     "Id": 4,
     "Name": "smart phone",
     "Description": "good smart phone",
-    "Price": 12,
+    "Price": 12.00,
     "CategoryIds": [
       4
     ],
