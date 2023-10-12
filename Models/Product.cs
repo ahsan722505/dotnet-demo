@@ -126,6 +126,20 @@ public class Product
         
     }
 
+    public static List<Product> GetProductsByCategory(int categoryId)
+{
+    string jsonFilePath = "./Products.json";
+
+    // Read and deserialize the existing products
+    string jsonContent = File.ReadAllText(jsonFilePath);
+    List<Product> allProducts = JsonSerializer.Deserialize<List<Product>>(jsonContent) ?? new List<Product>();
+
+    // Filter products by category
+    List<Product> productsInCategory = allProducts.Where(p => p.CategoryIds.Contains(categoryId)).ToList();
+
+    return productsInCategory;
+}
+
 
 
 }

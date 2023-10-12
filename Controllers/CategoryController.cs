@@ -13,6 +13,12 @@ public class CategoryController : Controller
         return View(Category.GetCategories());
     }
 
+    public IActionResult Products(int id)
+    {
+         
+        return View(Product.GetProductsByCategory(id));
+    }
+
     //GET
     public IActionResult Create()
     {

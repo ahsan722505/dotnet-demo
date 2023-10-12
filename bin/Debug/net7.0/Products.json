@@ -3,7 +3,7 @@
     "Id": 1,
     "Name": "bat",
     "Description": "A good bat",
-    "Price": 120.0,
+    "Price": 120.00,
     "CategoryIds": [
       3
     ],
@@ -41,15 +41,6 @@
     "CategoryIds": [
       4
     ],
-    "CategoryNames": [],
-    "AvailableCategories": []
-  },
-  {
-    "Id": 5,
-    "Name": "dsds",
-    "Description": "dsd",
-    "Price": 12,
-    "CategoryIds": [],
     "CategoryNames": [],
     "AvailableCategories": []
   }
