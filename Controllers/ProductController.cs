@@ -1,43 +1,46 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using product_management.Models;
 
 namespace product_management.Controllers;
 
 public class ProductController : Controller
 {
-
+    private readonly ApplicationDbContext _db;
+    public ProductController(ApplicationDbContext db){
+            _db=db;
+    }
     public IActionResult Index()
     {
-          
-        return View(Product.GetProducts());
+        var products= _db.Products.Include(p=> p.ProductCategories).ThenInclude(pc=> pc.Category).ToList();
+        return View(products);
     }
 
     //GET
     public IActionResult Create()
     {
-        var productViewModel = new Product();
+         var categories = _db.Categories.ToList();
+         ViewBag.Categories=categories;
     
-    // Load available categories from the data source
-    List<Category> availableCategories = Category.GetCategories();
-    
-    // Set the available categories on the view model
-    // For this step, you'll need to add an AvailableCategories property to your Product model.
-    productViewModel.AvailableCategories = availableCategories;
-    
-    // Pass the populated view model to the view
-    return View(productViewModel);
+    return View();
     }
 
     //POST
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Product obj)
+    public IActionResult Create(Product obj,List <int> CategoryIds)
     {
         
         if (ModelState.IsValid)
         {
-            Product.addProduct(obj);
+            _db.Products.Add(obj);
+            _db.SaveChanges();
+
+            foreach(var categoryId in CategoryIds){
+                _db.ProductCategories.Add(new ProductCategory { ProductId = obj.Id, CategoryId = categoryId });
+            }
+            _db.SaveChanges();
             TempData["success"] = "Product created successfully";
             return RedirectToAction("Index");
         }
@@ -50,12 +53,14 @@ public class ProductController : Controller
         {
             return NotFound();
         }
-        Product product= Product.GetProduct(id);
+        var product= _db.Products.Include(p=> p.ProductCategories).ThenInclude(pc=> pc.Category).FirstOrDefault(p=> p.Id == id);
 
         if (product == null)
         {
             return NotFound();
         }
+
+        ViewBag.Categories= _db.Categories.ToList();
 
         return View(product);
     }
@@ -63,11 +68,21 @@ public class ProductController : Controller
     //POST
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(Product obj)
+    public IActionResult Edit(Product obj, List<int> SelectedCategoryIds)
     {
         if (ModelState.IsValid)
         {
-            Product.updateProduct(obj);
+            _db.Products.Update(obj);
+
+            _db.ProductCategories.RemoveRange(_db.ProductCategories.Where(pc=> pc.ProductId == obj.Id));
+            _db.SaveChanges();
+            
+            foreach(var categoryId in SelectedCategoryIds){
+                _db.ProductCategories.Add(new ProductCategory{CategoryId =categoryId, ProductId = obj.Id});
+            }
+
+            _db.SaveChanges();
+
             TempData["success"] = "Product updated successfully";
             return RedirectToAction("Index");
         }
@@ -77,18 +92,18 @@ public class ProductController : Controller
 
     public IActionResult Delete(int? id)
     {
-        if (id == null || id == 0)
-        {
-            return NotFound();
-        }
-        Product product= Product.GetProduct(id);
+        // if (id == null || id == 0)
+        // {
+        //     return NotFound();
+        // }
+        // // Product product= Product.GetProduct(id);
 
-        if (product == null)
-        {
-            return NotFound();
-        }
+        // if (product == null)
+        // {
+        //     return NotFound();
+        // }
 
-        return View(product);
+        return View();
     }
 
     //POST
@@ -96,14 +111,14 @@ public class ProductController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
-        var obj = Product.GetProduct(id);
-        if (obj == null)
-        {
-            return NotFound();
-        }
+        // var obj = Product.GetProduct(id);
+        // if (obj == null)
+        // {
+        //     return NotFound();
+        // }
 
-        Product.deleteProduct(obj.Id);
-        TempData["success"] = "Product deleted successfully";
+        // Product.deleteProduct(obj.Id);
+        // TempData["success"] = "Product deleted successfully";
         return RedirectToAction("Index");
         
     }

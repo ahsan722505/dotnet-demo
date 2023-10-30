@@ -31,3 +31,14 @@
 /home/ahsan/Desktop/product-management/obj/Debug/net7.0/ref/product-management.dll
 /home/ahsan/Desktop/product-management/bin/Debug/net7.0/Categories.json
 /home/ahsan/Desktop/product-management/bin/Debug/net7.0/Products.json
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Humanizer.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Mono.TextTemplating.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Npgsql.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/ahsan/Desktop/product-management/bin/Debug/net7.0/System.CodeDom.dll
+/home/ahsan/Desktop/product-management/obj/Debug/net7.0/product-management.csproj.CopyComplete
