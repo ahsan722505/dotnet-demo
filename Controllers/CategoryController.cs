@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using product_management.Models;
 
 namespace product_management.Controllers;
@@ -18,8 +19,8 @@ public class CategoryController : Controller
 
     public IActionResult Products(int id)
     {
-         
-        return View();
+         var productsOfCategory = _db.ProductCategories.Where(pc=> pc.CategoryId == id).Include(pc=> pc.Product).Select(pc=> pc.Product).ToList();
+        return View(productsOfCategory);
     }
 
     //GET

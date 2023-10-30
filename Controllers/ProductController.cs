@@ -92,18 +92,20 @@ public class ProductController : Controller
 
     public IActionResult Delete(int? id)
     {
-        // if (id == null || id == 0)
-        // {
-        //     return NotFound();
-        // }
-        // // Product product= Product.GetProduct(id);
+        if(id==null || id == 0)
+        {
+            return NotFound();
+        }
+        var product= _db.Products.Include(p=> p.ProductCategories).ThenInclude(pc=> pc.Category).FirstOrDefault(p=> p.Id == id);
 
-        // if (product == null)
-        // {
-        //     return NotFound();
-        // }
+        if (product == null)
+        {
+            return NotFound();
+        }
 
-        return View();
+        ViewBag.Categories= _db.Categories.ToList();
+
+        return View(product);
     }
 
     //POST
@@ -111,14 +113,15 @@ public class ProductController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeletePOST(int? id)
     {
-        // var obj = Product.GetProduct(id);
-        // if (obj == null)
-        // {
-        //     return NotFound();
-        // }
+        var obj = _db.Products.Find(id);
+        if (obj == null)
+        {
+            return NotFound();
+        }
 
-        // Product.deleteProduct(obj.Id);
-        // TempData["success"] = "Product deleted successfully";
+        _db.Products.Remove(obj);
+        _db.SaveChanges();
+        TempData["success"] = "Product deleted successfully";
         return RedirectToAction("Index");
         
     }
